@@ -3,80 +3,127 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Classic Snake Game</title>
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <meta name="description" content="A responsive classic Snake game with different food types, high score persistence, and sound effects." />
+  <title>Enhanced Snake Game</title>
+  <meta name="description" content="Enhanced Snake game with difficulty, countdown, mobile controls, obstacles, leaderboard, dark mode and music." />
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
-  <main class="container py-4">
-    <header class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-3">
-      <h1 class="h4 mb-2 mb-md-0">Classic Snake</h1>
-      <div class="text-end">
-        <div class="small">Score: <span id="score">0</span></div>
-        <div class="small">High Score: <span id="highScore">0</span></div>
-      </div>
-    </header>
-
-    <section class="row gx-3">
-      <div class="col-12 col-md-8 order-2 order-md-1">
-        <div class="card">
-          <div class="card-body d-flex justify-content-center align-items-center">
-            <!-- Game canvas -->
-            <canvas id="gameCanvas" aria-label="Snake game board" role="img"></canvas>
-          </div>
-          <div class="card-footer d-flex justify-content-between align-items-center">
-            <div>
-              <button id="startBtn" class="btn btn-success btn-sm me-2">Start</button>
-              <button id="resetBtn" class="btn btn-outline-danger btn-sm">Reset</button>
-            </div>
-            <div class="small text-muted">Use arrow keys or swipe / on-screen buttons to control</div>
-          </div>
+  <nav class="navbar navbar-expand-lg sticky-top shadow-sm" id="topbar">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Snake Enhanced</a>
+      <div class="d-flex align-items-center gap-2">
+        <div class="form-check form-switch me-2">
+          <input class="form-check-input" type="checkbox" id="modeToggle" aria-label="Toggle dark mode">
+          <label class="form-check-label" for="modeToggle">Dark</label>
         </div>
+        <button class="btn btn-outline-primary btn-sm" id="musicToggle" title="Toggle background music">Music: On</button>
       </div>
+    </div>
+  </nav>
 
-      <aside class="col-12 col-md-4 order-1 order-md-2 mb-3 mb-md-0">
-        <div class="card h-100">
-          <div class="card-body">
-            <h2 class="h6">Food Types</h2>
-            <ul class="list-unstyled">
-              <li><span class="food-dot" style="background:#ff4d4d;"></span> Red - 1 point</li>
-              <li><span class="food-dot" style="background:#ffd24d;"></span> Yellow - 3 points</li>
-              <li><span class="food-dot" style="background:#4da6ff;"></span> Blue - 5 points</li>
-            </ul>
-            <hr>
-            <h3 class="h6">Controls</h3>
-            <p class="small mb-1">Keyboard: Arrow keys / WASD</p>
-            <p class="small mb-1">Mobile: Use the directional buttons or swipe</p>
-            <div class="d-flex justify-content-center mt-2">
-              <div class="d-grid gap-1">
-                <div class="d-flex justify-content-center mb-1">
-                  <button class="btn btn-secondary control-btn" data-dir="up" aria-label="Up">▲</button>
+  <main class="container py-4">
+    <div class="row g-3">
+      <section class="col-lg-8">
+        <div class="card shadow-sm">
+          <div class="card-body position-relative">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="d-flex gap-2 align-items-center">
+                <label class="mb-0">Difficulty:</label>
+                <select id="difficulty" class="form-select form-select-sm w-auto" aria-label="Select difficulty">
+                  <option value="easy">Easy</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="hard">Hard</option>
+                </select>
+                <button id="startBtn" class="btn btn-success btn-sm">Start</button>
+                <button id="pauseBtn" class="btn btn-warning btn-sm">Pause</button>
+                <button id="resetBtn" class="btn btn-secondary btn-sm">Reset</button>
+              </div>
+              <div class="text-end">
+                <div>Score: <span id="score">0</span></div>
+                <div>High: <span id="highScore">0</span></div>
+              </div>
+            </div>
+
+            <div class="game-wrapper">
+              <canvas id="gameCanvas" width="560" height="560" tabindex="0"></canvas>
+              <div id="countdown" aria-live="polite" class="countdown-overlay"></div>
+              <!-- Mobile controls -->
+              <div class="mobile-controls d-lg-none">
+                <div class="control-row">
+                  <button class="touch-btn" data-dir="up" aria-label="Up">▲</button>
                 </div>
-                <div class="d-flex gap-1">
-                  <button class="btn btn-secondary control-btn" data-dir="left" aria-label="Left">◀</button>
-                  <button class="btn btn-secondary control-btn" data-dir="down" aria-label="Down">▼</button>
-                  <button class="btn btn-secondary control-btn" data-dir="right" aria-label="Right">▶</button>
+                <div class="control-row">
+                  <button class="touch-btn" data-dir="left" aria-label="Left">◀</button>
+                  <button class="touch-btn" data-dir="down" aria-label="Down">▼</button>
+                  <button class="touch-btn" data-dir="right" aria-label="Right">▶</button>
                 </div>
               </div>
             </div>
+
+            <div class="mt-3 small text-muted">Use arrow keys or swipe on the canvas to control the snake. Avoid obstacles. Collect apples to score.</div>
           </div>
-          <div class="card-footer">
-            <small class="text-muted">Made with HTML5 Canvas, Bootstrap 5, and vanilla JS</small>
+        </div>
+      </section>
+
+      <aside class="col-lg-4">
+        <div class="card shadow-sm mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Leaderboard</h5>
+            <ol id="leaderboard" class="list-group list-group-numbered mb-2"></ol>
+            <button id="clearBoard" class="btn btn-outline-danger btn-sm">Clear Leaderboard</button>
+          </div>
+        </div>
+
+        <div class="card shadow-sm mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Game Info</h5>
+            <p class="small mb-1"><strong>Obstacles:</strong> Randomly placed walls that end the game on collision.</p>
+            <p class="small mb-1"><strong>Countdown:</strong> 3-2-1 before the game begins.</p>
+            <p class="small mb-0"><strong>Pause:</strong> Use Pause button or press "P".</p>
+          </div>
+        </div>
+
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Settings</h5>
+            <div class="mb-2">
+              <label class="form-label mb-1">Music Volume</label>
+              <input type="range" id="musicVolume" min="0" max="1" step="0.01" value="0.2">
+            </div>
+            <div>
+              <label class="form-label mb-1">Snake Color</label>
+              <input type="color" id="snakeColor" value="#28a745">
+            </div>
           </div>
         </div>
       </aside>
-    </section>
-
-    <footer class="mt-4 text-center small text-muted">
-      Tip: Press Start then use arrow keys or on-screen controls. Eating special food yields more points.
-    </footer>
+    </div>
   </main>
 
-  <!-- Game logic -->
-  <script src="game.js"></script>
-  <!-- Bootstrap JS (optional) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Name input modal -->
+  <div class="modal" id="nameModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <form id="nameForm" class="p-3">
+          <h5 class="mb-2">Game Over</h5>
+          <p class="mb-2">Your score: <strong id="finalScore">0</strong></p>
+          <div class="mb-2">
+            <label for="playerName" class="form-label">Enter your name</label>
+            <input type="text" id="playerName" class="form-control" maxlength="20" placeholder="Anonymous">
+          </div>
+          <div class="d-flex justify-content-end gap-2">
+            <button type="button" class="btn btn-secondary" id="cancelName">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Score</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/app.js"></script>
 </body>
 </html>

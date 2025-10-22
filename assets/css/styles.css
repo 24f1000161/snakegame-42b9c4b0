@@ -1,0 +1,81 @@
+:root{
+  --bg:#f8f9fa;
+  --card:#ffffff;
+  --text:#212529;
+  --accent:#0d6efd;
+  --muted:#6c757d;
+  --shadow: 0 6px 18px rgba(16,24,40,0.06);
+  --snake:#28a745;
+  --apple:#dc3545;
+}
+body{
+  background: linear-gradient(180deg,var(--bg),#e9ecef);
+  color:var(--text);
+  transition:background .3s ease, color .3s ease;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+#topbar{
+  background:linear-gradient(90deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7));
+  backdrop-filter: blur(6px);
+}
+.card{ background:var(--card); border-radius:12px; box-shadow:var(--shadow); }
+.game-wrapper{ position:relative; display:flex; justify-content:center; align-items:center; }
+canvas{
+  border-radius:10px;
+  background: linear-gradient(180deg,#fff,#f1f3f5);
+  box-shadow: 0 12px 30px rgba(13,110,253,0.06), 0 2px 6px rgba(0,0,0,0.04);
+  width:100%;
+  max-width:560px;
+  height:auto;
+  touch-action: none;
+}
+.countdown-overlay{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:4rem;
+  font-weight:700;
+  color:rgba(13,110,253,0.95);
+  pointer-events:none;
+  transition:opacity .25s ease;
+  text-shadow: 0 6px 18px rgba(13,110,253,0.12);
+}
+.mobile-controls{
+  position:absolute;
+  bottom:12px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  pointer-events:auto;
+}
+.control-row{ display:flex; gap:8px; justify-content:center; }
+.touch-btn{
+  width:56px; height:56px; border-radius:10px; border:none;
+  background:linear-gradient(180deg, rgba(0,0,0,0.06), rgba(0,0,0,0.04));
+  color:var(--text); font-weight:700; font-size:1.2rem;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+.touch-btn:active{ transform:translateY(1px) scale(.98); }
+
+.dark-mode{
+  --bg:#0b1220;
+  --card:#0f1724;
+  --text:#e6eef8;
+  --accent:#60a5fa;
+  --muted:#9aa8bf;
+  --snake:#22c55e;
+  --apple:#fb7185;
+  background: linear-gradient(180deg,#071022,#081226);
+}
+.dark-mode #topbar{ background: linear-gradient(90deg, rgba(15,23,36,0.9), rgba(15,23,36,0.7)); }
+.dark-mode canvas{ background: linear-gradient(180deg,#071022,#092035); }
+.small{ font-size:.9rem; }
+
+/* leaderboard list styling */
+#leaderboard .list-group-item{
+  display:flex; justify-content:space-between; align-items:center; background:transparent; border:none; padding:.35rem .5rem;
+}
