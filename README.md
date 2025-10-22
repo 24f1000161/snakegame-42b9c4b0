@@ -1,36 +1,42 @@
-# Classic Snake (HTML5)
+# Classic Snake Game
 
 ## Overview
-Classic Snake is a responsive, mobile-friendly implementation of the classic Snake game using HTML, CSS, and JavaScript. The game features smooth snake movement, multiple types of food with different point values, real-time score and high score persistence via localStorage, start/reset controls, touch-friendly on-screen buttons for mobile, and sound effects using the Web Audio API.
+A responsive, mobile-friendly classic Snake game built with HTML, CSS, and vanilla JavaScript. The game features smooth movement, different colored foods that award different point values, sound effects, a persistent high score (stored in localStorage), and controls for both keyboard and touch devices.
 
 ## Files
-- index.html: Main HTML page. Contains the canvas, UI, buttons, and loads the game script and styles.
-- styles.css: Responsive styles for the layout, canvas, overlay, and mobile controls.
-- game.js: Complete game logic (movement, rendering, collision detection, scoring, sounds, localStorage).
-- README.md: Project documentation and usage instructions.
-- LICENSE: MIT License for this project.
-- uid.txt: Unique identifier file provided with the project.
+- index.html: Main HTML file that initializes the page, includes meta viewport, and references styles and scripts.
+- styles.css: Responsive styling for the game layout and components, including mobile-friendly controls.
+- game.js: Complete game logic (movement, collision detection, food spawning, scoring, sound, touch controls).
+- README.md: Project documentation (this file).
+- LICENSE: MIT license for the project.
+- uid.txt: Identifier file included with the project (provided attachment).
 
 ## Setup
 This project is published on GitHub Pages and can be accessed at `https://[username].github.io/[repo-name]/`
 
 To run locally:
-1. Clone the repository to your machine.
-2. Open `index.html` in a modern browser (Chrome, Firefox, Edge, Safari).
-3. For GitHub Pages, push the repository to GitHub and enable Pages for the repository (usually from the repository Settings -> Pages). The `index.html` at the root will be served.
+1. Clone the repository or download the files.
+2. Open `index.html` in a modern web browser (Chrome, Firefox, Edge, Safari).
+3. Click "Start" to begin playing. Use arrow keys or on-screen controls to move the snake.
 
 ## Usage
-1. Click the "Start" button to begin the game.
-2. Use arrow keys or WASD to control the snake on desktop.
-3. On mobile, use the on-screen arrow buttons.
-4. Eat colored food to increase your score:
-   - Red: 1 point
-   - Green: 3 points
-   - Blue: 5 points
-   - Gold: 10 points
-5. High score is saved automatically to localStorage and shown under "High Score".
-6. Game over occurs when the snake hits a wall or itself. Use the "Reset" button to restart or the overlay buttons after a game over.
-7. Sound effects play on food-eating and game over (Web Audio API). If sound doesn't play automatically on first load, interact with the page to allow audio context to start.
+- Start: Click the "Start" button. The button will show "Running" while the game is in progress.
+- Controls:
+  - Desktop: Arrow keys or WASD.
+  - Mobile: Use the on-screen directional buttons or swipe on the canvas.
+- Objective: Eat food to grow the snake and increase your score. Different colored food items provide different point values:
+  - Red: 1 point
+  - Yellow: 3 points
+  - Blue: 5 points
+- Game Over: The game ends if the snake hits the wall or itself. Use the "Reset" button to restart the game.
+- High Score: The highest score is saved in your browser's localStorage and displayed on the screen.
+
+## Deployment to GitHub Pages
+1. Create a GitHub repository and push all project files to the repository.
+2. In the GitHub repository, go to Settings → Pages.
+3. Under "Build and deployment", choose the branch (commonly main) and root folder (/).
+4. Save. GitHub will publish the site at `https://[username].github.io/[repo-name]/`.
+5. Ensure `index.html` is at the repository root so GitHub Pages can serve it.
 
 ## License
 MIT License - see LICENSE file for details.

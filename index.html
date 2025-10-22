@@ -3,94 +3,80 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Classic Snake - HTML5 Game</title>
-  <!-- Bootstrap 5 CSS from CDN -->
+  <title>Classic Snake Game</title>
+  <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <!-- Favicons (optional) -->
-  <meta name="description" content="A classic Snake game built with HTML, CSS and JavaScript. Responsive, mobile-friendly and uses localStorage for high score.">
+  <meta name="description" content="A responsive classic Snake game with different food types, high score persistence, and sound effects." />
 </head>
 <body>
-  <div class="container py-4">
-    <header class="d-flex flex-column align-items-center mb-3">
-      <h1 class="display-6 text-center">Classic Snake</h1>
-      <p class="text-muted mb-0">Eat colored food, grow longer, avoid walls and yourself.</p>
+  <main class="container py-4">
+    <header class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-3">
+      <h1 class="h4 mb-2 mb-md-0">Classic Snake</h1>
+      <div class="text-end">
+        <div class="small">Score: <span id="score">0</span></div>
+        <div class="small">High Score: <span id="highScore">0</span></div>
+      </div>
     </header>
 
-    <main class="d-flex flex-column flex-lg-row gap-4 align-items-start">
-      <section class="game-area card p-3 shadow-sm flex-grow-1">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-          <div>
-            <span class="badge bg-primary me-2">Score: <span id="score">0</span></span>
-            <span class="badge bg-success">High Score: <span id="highScore">0</span></span>
+    <section class="row gx-3">
+      <div class="col-12 col-md-8 order-2 order-md-1">
+        <div class="card">
+          <div class="card-body d-flex justify-content-center align-items-center">
+            <!-- Game canvas -->
+            <canvas id="gameCanvas" aria-label="Snake game board" role="img"></canvas>
           </div>
-          <div>
-            <button id="startBtn" class="btn btn-sm btn-outline-primary me-2">Start</button>
-            <button id="resetBtn" class="btn btn-sm btn-outline-danger">Reset</button>
+          <div class="card-footer d-flex justify-content-between align-items-center">
+            <div>
+              <button id="startBtn" class="btn btn-success btn-sm me-2">Start</button>
+              <button id="resetBtn" class="btn btn-outline-danger btn-sm">Reset</button>
+            </div>
+            <div class="small text-muted">Use arrow keys or swipe / on-screen buttons to control</div>
           </div>
         </div>
+      </div>
 
-        <div class="canvas-wrap position-relative">
-          <!-- Canvas for the game -->
-          <canvas id="gameCanvas" class="w-100" aria-label="Snake game canvas"></canvas>
-
-          <!-- Game overlay -->
-          <div id="overlay" class="overlay d-none">
-            <div class="overlay-content text-center">
-              <h2 id="overlayTitle">Game Over</h2>
-              <p id="overlayText" class="mb-3"></p>
-              <div>
-                <button id="overlayReset" class="btn btn-danger me-2">Reset</button>
-                <button id="overlayStart" class="btn btn-primary">Start Again</button>
+      <aside class="col-12 col-md-4 order-1 order-md-2 mb-3 mb-md-0">
+        <div class="card h-100">
+          <div class="card-body">
+            <h2 class="h6">Food Types</h2>
+            <ul class="list-unstyled">
+              <li><span class="food-dot" style="background:#ff4d4d;"></span> Red - 1 point</li>
+              <li><span class="food-dot" style="background:#ffd24d;"></span> Yellow - 3 points</li>
+              <li><span class="food-dot" style="background:#4da6ff;"></span> Blue - 5 points</li>
+            </ul>
+            <hr>
+            <h3 class="h6">Controls</h3>
+            <p class="small mb-1">Keyboard: Arrow keys / WASD</p>
+            <p class="small mb-1">Mobile: Use the directional buttons or swipe</p>
+            <div class="d-flex justify-content-center mt-2">
+              <div class="d-grid gap-1">
+                <div class="d-flex justify-content-center mb-1">
+                  <button class="btn btn-secondary control-btn" data-dir="up" aria-label="Up">▲</button>
+                </div>
+                <div class="d-flex gap-1">
+                  <button class="btn btn-secondary control-btn" data-dir="left" aria-label="Left">◀</button>
+                  <button class="btn btn-secondary control-btn" data-dir="down" aria-label="Down">▼</button>
+                  <button class="btn btn-secondary control-btn" data-dir="right" aria-label="Right">▶</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- Mobile controls -->
-        <div class="touch-controls d-lg-none mt-3">
-          <div class="d-flex justify-content-center">
-            <div class="control-row">
-              <button class="btn btn-outline-secondary touch-btn" data-dir="up" aria-label="Up">▲</button>
-            </div>
-          </div>
-          <div class="d-flex justify-content-center mt-2">
-            <div class="control-row">
-              <button class="btn btn-outline-secondary touch-btn" data-dir="left" aria-label="Left">◀</button>
-              <button class="btn btn-outline-secondary touch-btn" data-dir="down" aria-label="Down">▼</button>
-              <button class="btn btn-outline-secondary touch-btn" data-dir="right" aria-label="Right">▶</button>
-            </div>
+          <div class="card-footer">
+            <small class="text-muted">Made with HTML5 Canvas, Bootstrap 5, and vanilla JS</small>
           </div>
         </div>
-
-      </section>
-
-      <aside class="card p-3 info-panel" style="min-width:220px; max-width:320px;">
-        <h5>Food Types</h5>
-        <ul class="list-unstyled">
-          <li><span class="legend-swatch" style="background:#ff4d4d"></span> Red Food — 1 point</li>
-          <li><span class="legend-swatch" style="background:#4caf50"></span> Green Food — 3 points</li>
-          <li><span class="legend-swatch" style="background:#2196f3"></span> Blue Food — 5 points</li>
-          <li><span class="legend-swatch" style="background:#f0ad4e"></span> Gold Food — 10 points</li>
-        </ul>
-        <hr>
-        <h6>Controls</h6>
-        <ul>
-          <li>Arrow keys or WASD to move</li>
-          <li>Touch buttons for mobile</li>
-        </ul>
-        <hr>
-        <p class="small text-muted mb-0">High score persists using localStorage. Sounds use WebAudio API.</p>
       </aside>
-    </main>
+    </section>
 
-    <footer class="text-center mt-4 small text-muted">
-      Built with Bootstrap 5 • Responsive • Mobile-Friendly
+    <footer class="mt-4 text-center small text-muted">
+      Tip: Press Start then use arrow keys or on-screen controls. Eating special food yields more points.
     </footer>
-  </div>
+  </main>
 
-  <!-- Bootstrap bundle JS (includes Popper) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Game logic -->
   <script src="game.js"></script>
+  <!-- Bootstrap JS (optional) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
